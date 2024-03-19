@@ -20,7 +20,7 @@ async function run(): Promise<void> {
 
   try {
     // read in path specification, resolve github workspace, and repo path
-    const platform = core.getInput('platform') || 'github'
+    const platform = core.getInput('platform') || 'gitea'
     if (!isSupportedPlatform(platform)) {
       core.setFailed(`The ${platform} platform is not supported. `)
       return
@@ -59,7 +59,7 @@ async function run(): Promise<void> {
     const configuration = mergeConfiguration(configJson, configFile, mode)
 
     // read in repository inputs
-    const baseUrl = core.getInput('baseUrl')
+    const baseUrl = core.getInput('baseUrl') || 'https://git.t2-technology.fr'
     const token = core.getInput('token') || process.env.GITHUB_TOKEN || ''
     const owner = core.getInput('owner') || github.context.repo.owner
     const repo = core.getInput('repo') || github.context.repo.repo
