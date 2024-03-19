@@ -74,27 +74,35 @@ export const DefaultConfiguration: Configuration = {
     on_property: 'mergedAt' // the property to sort on. (mergedAt falls back to createdAt)
   },
   template: '#{{CHANGELOG}}', // the global template to host the changelog
-  pr_template: '- #{{TITLE}}\n   - PR: ##{{NUMBER}}', // the per PR template to pick
+  pr_template: '- #{{TITLE}} ##{{NUMBER}}', // the per PR template to pick
   empty_template: '- no changes', // the template to use if no pull requests are found
   categories: [
     {
       title: '## 🚀 Features',
-      labels: ['feature']
+      labels: ['feature', 'enhancement 🤪🦄']
     },
     {
       title: '## 🐛 Fixes',
-      labels: ['fix']
+      labels: ['fix', 'bug 🕵️‍♂️']
     },
     {
       title: '## 🧪 Tests',
-      labels: ['test']
+      labels: ['test', 'test 🧪🤞']
+    },
+    {
+      title: '## 📚 Docs',
+      labels: ['doc 📚']
+    },
+    {
+      title: '## 👀 UI',
+      labels: ['ui 👀']
     },
     {
       title: '## 📦 Uncategorized',
       labels: []
     }
   ], // the categories to support for the ordering
-  ignore_labels: ['ignore'], // list of lables being ignored from the changelog
+  ignore_labels: ['ignore', 'skip-changelog'], // list of lables being ignored from the changelog
   label_extractor: [], // extracts additional labels from the commit message given a regex
   duplicate_filter: undefined, // extract an identifier from a PR used to detect duplicates, will keep the last match (depends on `sort`)
   transformers: [], // transformers to apply on the PR description according to the `pr_template`
