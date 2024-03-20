@@ -20,7 +20,7 @@ async function run(): Promise<void> {
 
   try {
     // read in path specification, resolve github workspace, and repo path
-    const platform = core.getInput('platform') || 'github'
+    const platform = core.getInput('platform') || process.env.GITHUB_CHANGELOG_PLATFORM || 'github'
     if (!isSupportedPlatform(platform)) {
       core.setFailed(`The ${platform} platform is not supported. `)
       return
@@ -42,13 +42,14 @@ async function run(): Promise<void> {
     }
     // read in the configuration from the file if possible
     const configurationFile: string = core.getInput('configuration')
-    const configFile = resolveConfiguration(repositoryPath, configurationFile)
+    let configFile = resolveConfiguration(repositoryPath, configurationFile)
     if (configFile) {
       core.info(`ℹ️ Retrieved configuration via 'configuration' (via file).`)
     }
 
     if (!configJson && !configFile) {
-      core.info(`ℹ️ No configuration provided. Using Defaults.`)
+      core.info(`ℹ️ No configuration provided. Using configuration_t2care.json.`)
+      configFile = resolveConfiguration('', 'configs/configuration_t2care.json')
     }
 
     // mode of the action (PR, COMMIT, HYBRID)
@@ -59,7 +60,7 @@ async function run(): Promise<void> {
     const configuration = mergeConfiguration(configJson, configFile, mode)
 
     // read in repository inputs
-    const baseUrl = core.getInput('baseUrl')
+    const baseUrl = core.getInput('baseUrl') || process.env.GITHUB_CHANGELOG_BASEURL || ''
     const token = core.getInput('token') || process.env.GITHUB_TOKEN || ''
     const owner = core.getInput('owner') || github.context.repo.owner
     const repo = core.getInput('repo') || github.context.repo.repo
