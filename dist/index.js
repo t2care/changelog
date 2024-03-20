@@ -154,7 +154,7 @@ function run() {
         core.startGroup(`📘 Reading input values`);
         try {
             // read in path specification, resolve github workspace, and repo path
-            const platform = core.getInput('platform') || 'github';
+            const platform = core.getInput('platform') || process.env.GITHUB_CHANGELOG_PLATFORM || 'github';
             if (!isSupportedPlatform(platform)) {
                 core.setFailed(`The ${platform} platform is not supported. `);
                 return;
@@ -174,12 +174,13 @@ function run() {
             }
             // read in the configuration from the file if possible
             const configurationFile = core.getInput('configuration');
-            const configFile = (0, utils_1.resolveConfiguration)(repositoryPath, configurationFile);
+            let configFile = (0, utils_1.resolveConfiguration)(repositoryPath, configurationFile);
             if (configFile) {
                 core.info(`ℹ️ Retreived configuration via 'configuration' (via file).`);
             }
             if (!configJson && !configFile) {
-                core.info(`ℹ️ No configuration provided. Using Defaults.`);
+                core.info(`ℹ️ No configuration provided. Using configuration_t2care.json.`);
+                configFile = (0, utils_1.resolveConfiguration)('', 'configs/configuration_t2care.json');
             }
             // mode of the action (PR, COMMIT, HYBRID)
             const mode = (0, utils_1.resolveMode)(core.getInput('mode'), core.getInput('commitMode') === 'true');
@@ -187,7 +188,7 @@ function run() {
             // merge configs, use default values from DefaultConfig on missing definition
             const configuration = (0, utils_1.mergeConfiguration)(configJson, configFile, mode);
             // read in repository inputs
-            const baseUrl = core.getInput('baseUrl');
+            const baseUrl = core.getInput('baseUrl') || process.env.GITHUB_CHANGELOG_BASEURL || '';
             const token = core.getInput('token') || process.env.GITHUB_TOKEN || '';
             const owner = core.getInput('owner') || github.context.repo.owner;
             const repo = core.getInput('repo') || github.context.repo.repo;
