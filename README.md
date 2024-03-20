@@ -1,4 +1,4 @@
-This is the fork of https://github.com/mikepenz/release-changelog-builder-action. Branch `develop`. The goal is to support Gitea by default with our config by default
+This is the fork of https://github.com/mikepenz/release-changelog-builder-action. Branch `develop`. The goal is to support Gitea and our URL by default
 
 <p align="center">
     ... a GitHub action that builds your release notes / changelog fast simple and exactly the way you want.
@@ -288,6 +288,7 @@ The action supports flexible and extensive configuration options to fine-tune it
 
 ```yml
 - name: Build Changelog
+<<<<<<< HEAD
   uses: mikepenz/release-changelog-builder-action@v5
   with:
     configurationJson: |
@@ -682,11 +683,13 @@ The API for gitea is equal to the one from GitHub, however it requires the `plat
   with:
     platform: "gitea" # gitea or GitHub, default is GitHub
     configuration: "configuration.json"
+=======
+  uses: https://github.com/t2care/release-changelog-builder-action@v4
+>>>>>>> 8921d58 (Remove secrets and set url by default)
   env:
     token: ${{ secrets.GITEA_TOKEN }}
-    baseUrl: ${{ secrets.GITHUB_SERVER_URL }}
 ```
-Or you can declare TOKEN, CHANGELOG_BASEURL and CHANGELOG_PLATFORM in ORG secrets 
+Or you can declare TOKEN in ORG secrets 
 
 <<<<<<< HEAD
 ## Contribute 🧬
