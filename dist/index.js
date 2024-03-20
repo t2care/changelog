@@ -154,7 +154,7 @@ function run() {
         core.startGroup(`📘 Reading input values`);
         try {
             // read in path specification, resolve github workspace, and repo path
-            const platform = core.getInput('platform') || process.env.GITHUB_CHANGELOG_PLATFORM || 'github';
+            const platform = core.getInput('platform') || 'gitea';
             if (!isSupportedPlatform(platform)) {
                 core.setFailed(`The ${platform} platform is not supported. `);
                 return;
@@ -188,7 +188,7 @@ function run() {
             // merge configs, use default values from DefaultConfig on missing definition
             const configuration = (0, utils_1.mergeConfiguration)(configJson, configFile, mode);
             // read in repository inputs
-            const baseUrl = core.getInput('baseUrl') || process.env.GITHUB_CHANGELOG_BASEURL || '';
+            const baseUrl = core.getInput('baseUrl');
             const token = core.getInput('token') || process.env.GITHUB_TOKEN || '';
             const owner = core.getInput('owner') || github.context.repo.owner;
             const repo = core.getInput('repo') || github.context.repo.repo;
@@ -1886,10 +1886,10 @@ const core = __importStar(__nccwpck_require__(2186));
 const gitHelper_1 = __nccwpck_require__(3636);
 class GiteaRepository extends BaseRepository_1.BaseRepository {
     get defaultUrl() {
-        return 'https://gitea.com';
+        return 'https://git.t2-technology.fr';
     }
     get homeUrl() {
-        return 'https://gitea.com';
+        return 'https://git.t2-technology.fr';
     }
     constructor(token, url, repositoryPath) {
         super(token, url, repositoryPath);
