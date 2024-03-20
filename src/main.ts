@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {mergeConfiguration, parseConfiguration, resolveConfiguration, resolveMode, retrieveRepositoryPath, writeOutput} from './utils'
 import {ReleaseNotesBuilder} from './releaseNotesBuilder'
-import {Configuration} from './configuration'
+import {Configuration, DefaultT2CareConfiguration} from './configuration'
 import {GithubRepository} from './repositories/GithubRepository'
 import {GiteaRepository} from './repositories/GiteaRepository'
 
@@ -42,14 +42,14 @@ async function run(): Promise<void> {
     }
     // read in the configuration from the file if possible
     const configurationFile: string = core.getInput('configuration')
-    let configFile = resolveConfiguration(repositoryPath, configurationFile)
+    const configFile = resolveConfiguration(repositoryPath, configurationFile)
     if (configFile) {
       core.info(`ℹ️ Retreived configuration via 'configuration' (via file).`)
     }
 
     if (!configJson && !configFile) {
-      core.info(`ℹ️ No configuration provided. Using configuration_t2care.json.`)
-      configFile = resolveConfiguration('', 'configs/configuration_t2care.json')
+      core.info(`ℹ️ No configuration provided. Using DefaultT2CareConfiguration.`)
+      configJson = DefaultT2CareConfiguration
     }
 
     // mode of the action (PR, COMMIT, HYBRID)
