@@ -59,7 +59,7 @@ async function run(): Promise<void> {
     const configuration = mergeConfiguration(configJson, configFile, mode)
 
     // read in repository inputs
-    const baseUrl = core.getInput('baseUrl') || 'https://git.t2-technology.fr'
+    const baseUrl = core.getInput('baseUrl') || process.env.GITHUB_SERVER_URL || ''
     const token = core.getInput('token') || process.env.GITHUB_TOKEN || ''
     const owner = core.getInput('owner') || github.context.repo.owner
     const repo = core.getInput('repo') || github.context.repo.repo
