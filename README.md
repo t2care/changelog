@@ -289,6 +289,7 @@ The action supports flexible and extensive configuration options to fine-tune it
 ```yml
 - name: Build Changelog
 <<<<<<< HEAD
+<<<<<<< HEAD
   uses: mikepenz/release-changelog-builder-action@v5
   with:
     configurationJson: |
@@ -686,6 +687,9 @@ The API for gitea is equal to the one from GitHub, however it requires the `plat
 =======
   uses: https://github.com/t2care/release-changelog-builder-action@v4
 >>>>>>> 8921d58 (Remove secrets and set url by default)
+=======
+  uses: https://github.com/t2care/changelog@v4
+>>>>>>> c965a60 (Update projet name)
   env:
     token: ${{ secrets.GITEA_TOKEN }}
 ```
@@ -845,6 +849,11 @@ All patches and changes applied to the original source are licensed under the Ap
 =======
 ```yml
 - name: Build Changelog
+<<<<<<< HEAD
   uses: https://github.com/t2care/release-changelog-builder-action@v4
 ```
 >>>>>>> 845c67c (Update readme)
+=======
+  uses: https://github.com/t2care/changelog@v4
+```
+>>>>>>> c965a60 (Update projet name)
