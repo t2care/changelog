@@ -4,7 +4,7 @@ This is the fork of https://github.com/mikepenz/release-changelog-builder-action
 
 ```yml
 - name: Build Changelog
-  uses: https://github.com/t2care/release-changelog-builder-action@v4
+  uses: https://github.com/t2care/changelog@v4
   env:
     token: ${{ secrets.GITEA_TOKEN }}
 ```
@@ -12,5 +12,5 @@ Or you can declare TOKEN in ORG secrets
 
 ```yml
 - name: Build Changelog
-  uses: https://github.com/t2care/release-changelog-builder-action@v4
+  uses: https://github.com/t2care/changelog@v4
 ```
