@@ -94,18 +94,14 @@ exports.DefaultCommitConfiguration = {
     trim_values: exports.DefaultConfiguration.trim_values
 };
 exports.DefaultT2CareConfiguration = {
-    max_tags_to_fetch: 200, // the amount of tags to fetch from the github API
-    max_pull_requests: 200, // the amount of pull requests to process
-    max_back_track_time_days: 365, // allow max of 365 days back to check up on pull requests
-    exclude_merge_branches: [], // branches to exclude from counting as PRs (e.g. YourOrg/qa, YourOrg/main)
-    sort: {
-        // defines the sorting logic for PRs
-        order: 'ASC', // the sorting order
-        on_property: 'mergedAt' // the property to sort on. (mergedAt falls back to createdAt)
-    },
-    template: '#{{CHANGELOG}}', // the global template to host the changelog
-    pr_template: '- #{{TITLE}} ##{{NUMBER}}', // the per PR template to pick
-    empty_template: '- no changes', // the template to use if no pull requests are found
+    max_tags_to_fetch: exports.DefaultConfiguration.max_tags_to_fetch,
+    max_pull_requests: exports.DefaultConfiguration.max_pull_requests,
+    max_back_track_time_days: exports.DefaultConfiguration.max_back_track_time_days,
+    exclude_merge_branches: exports.DefaultConfiguration.exclude_merge_branches,
+    sort: exports.DefaultConfiguration.sort,
+    template: exports.DefaultConfiguration.template,
+    pr_template: '- #{{TITLE}} ##{{NUMBER}}',
+    empty_template: exports.DefaultConfiguration.empty_template,
     categories: [
         {
             title: '## 🚀 Features',
@@ -140,17 +136,11 @@ exports.DefaultT2CareConfiguration = {
             on_property: 'title'
         }
     ], // extracts additional labels from the commit message given a regex
-    duplicate_filter: undefined, // extract an identifier from a PR used to detect duplicates, will keep the last match (depends on `sort`)
-    transformers: [], // transformers to apply on the PR description according to the `pr_template`
-    tag_resolver: {
-        // defines the logic on how to resolve the previous tag, only relevant if `fromTag` is not specified
-        method: 'semver', // defines which method to use, by default it will use `semver` (dropping all non matching tags). Alternative `sort` is also available.
-        filter: undefined, // filter out all tags not matching the regex
-        transformer: undefined // transforms the tag name using the regex, run after the filter
-    },
-    base_branches: [], // target branches for the merged PR ignoring PRs with different target branch, by default it will get all PRs
-    custom_placeholders: [],
-    trim_values: false // defines if values are being trimmed prior to inserting
+    transformers: exports.DefaultConfiguration.transformers,
+    tag_resolver: exports.DefaultConfiguration.tag_resolver,
+    base_branches: exports.DefaultConfiguration.base_branches,
+    custom_placeholders: exports.DefaultConfiguration.custom_placeholders,
+    trim_values: exports.DefaultConfiguration.trim_values
 };
 
 
