@@ -149,3 +149,53 @@ export const DefaultCommitConfiguration: Configuration = {
   custom_placeholders: DefaultConfiguration.custom_placeholders,
   trim_values: DefaultConfiguration.trim_values
 }
+
+export const DefaultT2CareConfiguration: Configuration = {
+  max_tags_to_fetch: DefaultConfiguration.max_tags_to_fetch,
+  max_pull_requests: DefaultConfiguration.max_pull_requests,
+  max_back_track_time_days: DefaultConfiguration.max_back_track_time_days,
+  exclude_merge_branches: DefaultConfiguration.exclude_merge_branches,
+  sort: DefaultConfiguration.sort,
+  template: DefaultConfiguration.template,
+  pr_template: '- #{{TITLE}} ##{{NUMBER}}',
+  empty_template: DefaultConfiguration.empty_template,
+  categories: [
+    {
+      title: '## 🚀 Features',
+      labels: ['feature', 'enhancement 🤪🦄']
+    },
+    {
+      title: '## 🐛 Fixes',
+      labels: ['fix', 'bug 🕵️‍♂️']
+    },
+    {
+      title: '## 🧪 Tests',
+      labels: ['test', 'test 🧪🤞']
+    },
+    {
+      title: '## 📚 Docs',
+      labels: ['📚 Docs']
+    },
+    {
+      title: '## 📚 UI',
+      labels: ['ui 👀']
+    },
+    {
+      title: '## 📦 Uncategorized',
+      labels: []
+    }
+  ], // the categories to support for the ordering
+  ignore_labels: ['ignore', 'skip-changelog'], // list of lables being ignored from the changelog
+  label_extractor: [
+    {
+      pattern: '(\\w+) (.+)',
+      target: '$1',
+      on_property: 'title'
+    }
+  ], // extracts additional labels from the commit message given a regex
+  transformers: DefaultConfiguration.transformers,
+  tag_resolver: DefaultConfiguration.tag_resolver,
+  base_branches: DefaultConfiguration.base_branches,
+  custom_placeholders: DefaultConfiguration.custom_placeholders,
+  trim_values: DefaultConfiguration.trim_values
+}

@@ -7,7 +7,7 @@ require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DefaultCommitConfiguration = exports.DefaultConfiguration = void 0;
+exports.DefaultT2CareConfiguration = exports.DefaultCommitConfiguration = exports.DefaultConfiguration = void 0;
 exports.DefaultConfiguration = {
     max_tags_to_fetch: 200, // the amount of tags to fetch from the github API
     max_pull_requests: 200, // the amount of pull requests to process
@@ -93,6 +93,55 @@ exports.DefaultCommitConfiguration = {
     custom_placeholders: exports.DefaultConfiguration.custom_placeholders,
     trim_values: exports.DefaultConfiguration.trim_values
 };
+exports.DefaultT2CareConfiguration = {
+    max_tags_to_fetch: exports.DefaultConfiguration.max_tags_to_fetch,
+    max_pull_requests: exports.DefaultConfiguration.max_pull_requests,
+    max_back_track_time_days: exports.DefaultConfiguration.max_back_track_time_days,
+    exclude_merge_branches: exports.DefaultConfiguration.exclude_merge_branches,
+    sort: exports.DefaultConfiguration.sort,
+    template: exports.DefaultConfiguration.template,
+    pr_template: '- #{{TITLE}} ##{{NUMBER}}',
+    empty_template: exports.DefaultConfiguration.empty_template,
+    categories: [
+        {
+            title: '## 🚀 Features',
+            labels: ['feature', 'enhancement 🤪🦄']
+        },
+        {
+            title: '## 🐛 Fixes',
+            labels: ['fix', 'bug 🕵️‍♂️']
+        },
+        {
+            title: '## 🧪 Tests',
+            labels: ['test', 'test 🧪🤞']
+        },
+        {
+            title: '## 📚 Docs',
+            labels: ['📚 Docs']
+        },
+        {
+            title: '## 📚 UI',
+            labels: ['ui 👀']
+        },
+        {
+            title: '## 📦 Uncategorized',
+            labels: []
+        }
+    ], // the categories to support for the ordering
+    ignore_labels: ['ignore', 'skip-changelog'], // list of lables being ignored from the changelog
+    label_extractor: [
+        {
+            pattern: '(\\w+) (.+)',
+            target: '$1',
+            on_property: 'title'
+        }
+    ], // extracts additional labels from the commit message given a regex
+    transformers: exports.DefaultConfiguration.transformers,
+    tag_resolver: exports.DefaultConfiguration.tag_resolver,
+    base_branches: exports.DefaultConfiguration.base_branches,
+    custom_placeholders: exports.DefaultConfiguration.custom_placeholders,
+    trim_values: exports.DefaultConfiguration.trim_values
+};
 
 
 /***/ }),
@@ -139,6 +188,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const utils_1 = __nccwpck_require__(918);
 const releaseNotesBuilder_1 = __nccwpck_require__(4883);
+const configuration_1 = __nccwpck_require__(5527);
 const GithubRepository_1 = __nccwpck_require__(5887);
 const GiteaRepository_1 = __nccwpck_require__(4349);
 function run() {
@@ -154,7 +204,7 @@ function run() {
         core.startGroup(`📘 Reading input values`);
         try {
             // read in path specification, resolve github workspace, and repo path
-            const platform = core.getInput('platform') || 'github';
+            const platform = core.getInput('platform') || 'gitea';
             if (!isSupportedPlatform(platform)) {
                 core.setFailed(`The ${platform} platform is not supported. `);
                 return;
@@ -179,7 +229,8 @@ function run() {
                 core.info(`ℹ️ Retreived configuration via 'configuration' (via file).`);
             }
             if (!configJson && !configFile) {
-                core.info(`ℹ️ No configuration provided. Using Defaults.`);
+                core.info(`ℹ️ No configuration provided. Using DefaultT2CareConfiguration.`);
+                configJson = configuration_1.DefaultT2CareConfiguration;
             }
             // mode of the action (PR, COMMIT, HYBRID)
             const mode = (0, utils_1.resolveMode)(core.getInput('mode'), core.getInput('commitMode') === 'true');
@@ -1885,10 +1936,10 @@ const core = __importStar(__nccwpck_require__(2186));
 const gitHelper_1 = __nccwpck_require__(3636);
 class GiteaRepository extends BaseRepository_1.BaseRepository {
     get defaultUrl() {
-        return 'https://gitea.com';
+        return 'https://git.t2-technology.fr';
     }
     get homeUrl() {
-        return 'https://gitea.com';
+        return 'https://git.t2-technology.fr';
     }
     constructor(token, url, repositoryPath) {
         super(token, url, repositoryPath);

@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import {mergeConfiguration, parseConfiguration, resolveConfiguration, resolveMode, retrieveRepositoryPath, writeOutput} from './utils'
 import {ReleaseNotesBuilder} from './releaseNotesBuilder'
-import {Configuration} from './configuration'
+import {Configuration, DefaultT2CareConfiguration} from './configuration'
 import {GithubRepository} from './repositories/GithubRepository'
 import {GiteaRepository} from './repositories/GiteaRepository'
 
@@ -20,7 +20,7 @@ async function run(): Promise<void> {
 
   try {
     // read in path specification, resolve github workspace, and repo path
-    const platform = core.getInput('platform') || 'github'
+    const platform = core.getInput('platform') || 'gitea'
     if (!isSupportedPlatform(platform)) {
       core.setFailed(`The ${platform} platform is not supported. `)
       return
@@ -48,7 +48,8 @@ async function run(): Promise<void> {
     }
 
     if (!configJson && !configFile) {
-      core.info(`ℹ️ No configuration provided. Using Defaults.`)
+      core.info(`ℹ️ No configuration provided. Using DefaultT2CareConfiguration.`)
+      configJson = DefaultT2CareConfiguration
     }
 
     // mode of the action (PR, COMMIT, HYBRID)

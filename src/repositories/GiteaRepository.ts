@@ -16,11 +16,11 @@ export class GiteaRepository extends BaseRepository {
   private api: Api<unknown>
 
   get defaultUrl(): string {
-    return 'https://gitea.com'
+    return 'https://git.t2-technology.fr'
   }
 
   get homeUrl(): string {
-    return 'https://gitea.com'
+    return 'https://git.t2-technology.fr'
   }
 
   constructor(token: string, url: string | undefined, repositoryPath: string) {
