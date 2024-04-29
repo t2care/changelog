@@ -1977,7 +1977,7 @@ class GiteaRepository extends BaseRepository_1.BaseRepository {
             const mergedPRs = [];
             yield this.getAllPullRequest(owner, repo, 'closed', maxPullRequests);
             for (const pr of GiteaRepository.pulls.closed.filter(p => !!p.merged_at)) {
-                if ((0, moment_1.default)(pr.closed_at) > fromDate && (0, moment_1.default)(pr.closed_at) < toDate) {
+                if ((0, moment_1.default)(pr.closed_at) > fromDate) {
                     mergedPRs.push(this.mapPullRequest(pr, 'merged'));
                 }
             }
