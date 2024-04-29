@@ -55,7 +55,7 @@ export class GiteaRepository extends BaseRepository {
     await this.getAllPullRequest(owner, repo, 'closed', maxPullRequests)
 
     for (const pr of GiteaRepository.pulls.closed.filter(p => !!p.merged_at)) {
-      if (moment(pr.closed_at) > fromDate && moment(pr.closed_at) < toDate) {
+      if (moment(pr.closed_at) > fromDate) {
         mergedPRs.push(this.mapPullRequest(pr, 'merged'))
       }
     }
