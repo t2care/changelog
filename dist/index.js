@@ -100,7 +100,7 @@ exports.DefaultT2CareConfiguration = {
     exclude_merge_branches: exports.DefaultConfiguration.exclude_merge_branches,
     sort: exports.DefaultConfiguration.sort,
     template: exports.DefaultConfiguration.template,
-    pr_template: '- #{{TITLE}} ##{{NUMBER}}',
+    pr_template: '- #{{TITLE}} @#{{AUTHOR}} ##{{NUMBER}}',
     empty_template: exports.DefaultConfiguration.empty_template,
     categories: [
         {

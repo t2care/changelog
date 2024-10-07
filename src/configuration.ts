@@ -157,7 +157,7 @@ export const DefaultT2CareConfiguration: Configuration = {
   exclude_merge_branches: DefaultConfiguration.exclude_merge_branches,
   sort: DefaultConfiguration.sort,
   template: DefaultConfiguration.template,
-  pr_template: '- #{{TITLE}} ##{{NUMBER}}',
+  pr_template: '- #{{TITLE}} @#{{AUTHOR}} ##{{NUMBER}}',
   empty_template: DefaultConfiguration.empty_template,
   categories: [
     {
