@@ -118,20 +118,19 @@ export function checkExportedData(exportCache: boolean, cacheInput: string | nul
 }
 
 export function resolveMode(mode: string | undefined, commitMode: boolean): 'PR' | 'COMMIT' | 'HYBRID' {
-  if (commitMode === false || mode === undefined) {
-    if (commitMode === true) {
-      return 'COMMIT'
-    } else {
-      return 'PR'
-    }
-  } else {
-    const upperCaseMode = mode.toUpperCase()
+  if (commitMode === true) {
+    return 'COMMIT'
+  }
+
+  if (mode !== undefined) {
+    const upperCaseMode = mode.toUpperCase();
     if (upperCaseMode === 'COMMIT') {
       return 'COMMIT'
     } else if (upperCaseMode === 'HYBRID') {
       return 'HYBRID'
     }
   }
+
   return 'PR'
 }
 
@@ -179,7 +178,7 @@ function readConfiguration(filename: string): Configuration | undefined {
  */
 export function parseConfiguration(config: string): Configuration | undefined {
   try {
-    // for compatiblity with the `yml` file we require to use `#{{}}` instead of `${{}}` - replace it here.
+    // for compatibility with the `yml` file we require to use `#{{}}` instead of `${{}}` - replace it here.
     const configurationJSON: Configuration = JSON.parse(config.replace(/\${{/g, '#{{'))
     return configurationJSON
   } catch (error) {

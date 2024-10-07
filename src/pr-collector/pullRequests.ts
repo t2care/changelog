@@ -16,6 +16,7 @@ export interface PullRequestInfo {
   mergedAt: moment.Moment | undefined
   mergeCommitSha: string
   author: string
+  authorName: string
   repoName: string
   labels: string[]
   milestone: string
@@ -45,6 +46,7 @@ export const EMPTY_PULL_REQUEST_INFO: PullRequestInfo = {
   createdAt: moment(),
   mergeCommitSha: '',
   author: '',
+  authorName: '',
   repoName: '',
   labels: [],
   milestone: '',
@@ -205,7 +207,7 @@ export class PullRequests {
         if (reviews && (reviews?.length || 0) > 0) {
           core.info(`ℹ️ Retrieved ${reviews.length || 0} review(s) for PR ${owner}/${repo}/#${pr.number}`)
 
-          // backwards compatiblity
+          // backwards compatibility
           pr.approvedReviewers = reviews.filter(r => r.state === 'APPROVED').map(r => r.author)
         } else {
           core.debug(`No reviewer(s) for PR ${owner}/${repo}/#${pr.number}`)

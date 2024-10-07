@@ -89,7 +89,7 @@ export function buildChangelog(diffInfo: DiffInfo, origPrs: PullRequestInfo[], o
       const deduplicatedMap = new Map<string, PullRequestInfo>()
       const unmatched: PullRequestInfo[] = []
       for (const pr of prs) {
-        const extracted = extractValues(pr, extractor, 'dupliate_filter')
+        const extracted = extractValues(pr, extractor, 'duplicate_filter')
         if (extracted !== null && extracted.length > 0) {
           deduplicatedMap.set(extracted[0], pr)
         } else {
@@ -275,12 +275,25 @@ export function buildChangelog(diffInfo: DiffInfo, origPrs: PullRequestInfo[], o
   }
   core.info(`✒️ Wrote ${ignoredPrs.length} ignored pull requests down`)
 
+  // collect all contributors
+  const contributorsSet: Set<String> = new Set()
+  for (const pr of prs) {
+    contributorsSet.add(`@${pr.author}`)
+  }
+  const contributorsArray = Array.from(contributorsSet)
+  const contributorsString = contributorsArray.join(', ')
+  const externalContributorString = contributorsArray.filter(value => value !== options.owner).join(', ')
+  core.setOutput('contributors', JSON.stringify(contributorsSet))
+
   // fill template
   const placeholderMap = new Map<string, string>()
   placeholderMap.set('CHANGELOG', changelog)
   placeholderMap.set('UNCATEGORIZED', changelogUncategorized)
   placeholderMap.set('OPEN', changelogOpen)
   placeholderMap.set('IGNORED', changelogIgnored)
+  // fill special collected contributors
+  placeholderMap.set('CONTRIBUTORS', contributorsString)
+  placeholderMap.set('EXTERNAL_CONTRIBUTORS', externalContributorString)
   // fill other placeholders
   placeholderMap.set('CATEGORIZED_COUNT', categorizedPrs.length.toString())
   placeholderMap.set('UNCATEGORIZED_COUNT', uncategorizedPrs.length.toString())
@@ -459,6 +472,7 @@ function fillPrTemplate(
   placeholderMap.set('MERGED_AT', pr.mergedAt?.toISOString() || '')
   placeholderMap.set('MERGE_SHA', pr.mergeCommitSha)
   placeholderMap.set('AUTHOR', pr.author)
+  placeholderMap.set('AUTHOR_NAME', pr.authorName || '')
   placeholderMap.set('LABELS', [...pr.labels]?.filter(l => !l.startsWith('--rcba-'))?.join(', ') || '')
   placeholderMap.set('MILESTONE', pr.milestone || '')
   placeholderMap.set('BODY', pr.body)
@@ -513,7 +527,7 @@ function handlePlaceholder(
       if (transformer?.pattern) {
         const extractedValue = transformStringToOptionalValue(value, transformer)
         // note: `.replace` will return the full string again if there was no match
-        // note: This is mostly backwards compatiblity
+        // note: This is mostly backwards compatibility
         if (extractedValue && ((transformer.method && transformer.method !== 'replace') || extractedValue !== value)) {
           if (placeholderPrMap) {
             createOrSet(placeholderPrMap, placeholder.name, extractedValue)
